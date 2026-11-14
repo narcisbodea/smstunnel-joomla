@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension method="upgrade" type="plugin" group="user">
+    <name>PLG_USER_SMSTUNNEL</name>
+    <author>NARBOWEB SRL</author>
+    <authorEmail>contact@smstunnel.io</authorEmail>
+    <authorUrl>https://smstunnel.io</authorUrl>
+    <creationDate>2026-11</creationDate>
+    <copyright>(C) 2026 NARBOWEB SRL</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <version>1.0.0</version>
+    <description>PLG_USER_SMSTUNNEL_XML_DESCRIPTION</description>
+    <namespace path="src">Narboweb\Plugin\User\Smstunnel</namespace>
+    <files>
+        <folder plugin="smstunnel">services</folder>
+        <folder>src</folder>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/plg_user_smstunnel.ini</language>
+        <language tag="en-GB">language/en-GB/plg_user_smstunnel.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                    name="apikey"
+                    type="password"
+                    label="PLG_USER_SMSTUNNEL_APIKEY_LABEL"
+                    description="PLG_USER_SMSTUNNEL_APIKEY_DESC"
+                    autocomplete="off"
+                    filter="raw"
+                />
+                <field
+                    name="recipients"
+                    type="text"
+                    label="PLG_USER_SMSTUNNEL_RECIPIENTS_LABEL"
+                    description="PLG_USER_SMSTUNNEL_RECIPIENTS_DESC"
+                    filter="raw"
+                    hint="+40721234567, +40734567890"
+                />
+                <field
+                    name="countrycode"
+                    type="text"
+                    label="PLG_USER_SMSTUNNEL_COUNTRYCODE_LABEL"
+                    description="PLG_USER_SMSTUNNEL_COUNTRYCODE_DESC"
+                    hint="+40"
+                />
+                <field
+                    name="deviceid"
+                    type="text"
+                    label="PLG_USER_SMSTUNNEL_DEVICEID_LABEL"
+                    description="PLG_USER_SMSTUNNEL_DEVICEID_DESC"
+                    filter="cmd"
+                />
+                <field
+                    name="template"
+                    type="textarea"
+                    label="PLG_USER_SMSTUNNEL_TEMPLATE_LABEL"
+                    description="PLG_USER_SMSTUNNEL_TEMPLATE_DESC"
+                    rows="3"
+                    cols="50"
+                    filter="raw"
+                    default="New registration on {sitename}: {name} ({email})"
+                />
+                <field
+                    name="siteonly"
+                    type="radio"
+                    layout="joomla.form.field.radio.switcher"
+                    label="PLG_USER_SMSTUNNEL_SITEONLY_LABEL"
+                    description="PLG_USER_SMSTUNNEL_SITEONLY_DESC"
+                    default="0"
+                >
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+</extension>
