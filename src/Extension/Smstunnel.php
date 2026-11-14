@@ -74,9 +74,12 @@ final class Smstunnel extends CMSPlugin implements SubscriberInterface
             [$sent, $error] = $api->send($to, $message, $deviceId, $countryCode);
 
             if (!$sent) {
-                // Log the masked number and the reason only — never the message text or the full number.
+                // Log the masked number and a one-line, length-capped reason only — never the message
+                // text or the full number, and no new lines that could forge extra log entries.
+                $reason = trim(mb_substr((string) preg_replace('/[\r\n\t]+/', ' ', $error), 0, 200));
+
                 Log::add(
-                    'SMSTunnel: a new-registration text to ' . $this->mask($to) . ' did not go out: ' . $error,
+                    'SMSTunnel: a new-registration text to ' . $this->mask($to) . ' did not go out: ' . $reason,
                     Log::WARNING,
                     'plg_user_smstunnel'
                 );
@@ -116,14 +119,23 @@ final class Smstunnel extends CMSPlugin implements SubscriberInterface
     {
         $template = (string) $this->params->get('template', 'New registration on {sitename}: {name} ({email})');
 
+        // name/username/email are chosen by whoever registers: drop any tags and new lines and clamp each
+        // value, so a crafted name can't spoof the text or inflate its length (and cost).
+        $clean = static fn ($value): string => trim(mb_substr(
+            (string) preg_replace('/\s+/u', ' ', strip_tags((string) $value)),
+            0,
+            60
+        ));
+
         $replacements = [
-            '{name}'     => (string) ($user['name'] ?? ''),
-            '{username}' => (string) ($user['username'] ?? ''),
-            '{email}'    => (string) ($user['email'] ?? ''),
-            '{sitename}' => (string) $this->getApplication()->get('sitename', ''),
+            '{name}'     => $clean($user['name'] ?? ''),
+            '{username}' => $clean($user['username'] ?? ''),
+            '{email}'    => $clean($user['email'] ?? ''),
+            '{sitename}' => $clean($this->getApplication()->get('sitename', '')),
         ];
 
-        return trim(strtr($template, $replacements));
+        // Clamp the whole text too, as a backstop against a long template or value.
+        return trim(mb_substr(strtr($template, $replacements), 0, 320));
     }
 
     /**
@@ -135,8 +147,10 @@ final class Smstunnel extends CMSPlugin implements SubscriberInterface
      */
     private function mask(string $number): string
     {
-        $length = \strlen($number);
+        // Fixed width, so the log reveals neither the number nor its length — only the last few digits of
+        // a full-length number, enough to tell recipients apart.
+        $digits = (string) preg_replace('/\D+/', '', $number);
 
-        return $length > 4 ? str_repeat('*', $length - 4) . substr($number, -4) : '****';
+        return \strlen($digits) >= 7 ? '***' . substr($digits, -3) : '***';
     }
 }
