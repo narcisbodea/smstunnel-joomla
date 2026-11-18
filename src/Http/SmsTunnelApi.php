@@ -49,7 +49,7 @@ final class SmsTunnelApi
         }
 
         try {
-            $http     = (new HttpFactory())->getHttp();
+            $http     = HttpFactory::getHttp();
             $response = $http->post(
                 self::BASE_URL . '/api/v1/sms/send',
                 json_encode($body),
@@ -64,8 +64,9 @@ final class SmsTunnelApi
             return [false, $e->getMessage()];
         }
 
-        $code = (int) $response->code;
-        $data = json_decode((string) $response->body, true);
+        // The PSR-7 methods: Joomla 6 (joomla/http 4) no longer has the old ->code and ->body properties.
+        $code = (int) $response->getStatusCode();
+        $data = json_decode((string) $response->getBody(), true);
 
         if ($code >= 200 && $code < 300 && \is_array($data) && !empty($data['success'])) {
             return [true, ''];

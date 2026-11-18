@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The update server of SMSTunnel for Joomla (plg_user_smstunnel). The manifest points here. -->
+<updates>
+    <update>
+        <name>User - SMSTunnel</name>
+        <description>SMSTunnel for Joomla: a text from your own Android phone when a new user registers.</description>
+        <element>smstunnel</element>
+        <type>plugin</type>
+        <folder>user</folder>
+        <client>site</client>
+        <version>1.0.1</version>
+        <infourl title="SMSTunnel for Joomla 1.0.1">https://github.com/narcisbodea/smstunnel-joomla/releases/tag/v1.0.1</infourl>
+        <downloads>
+            <downloadurl type="full" format="zip">https://github.com/narcisbodea/smstunnel-joomla/releases/download/v1.0.1/plg_user_smstunnel.zip</downloadurl>
+        </downloads>
+        <sha512>71b3dcff711e2c448363932e99d6604dcf866680b72d751413c011b2b9de03e21c18c78df81864edf42ebb37092ba6240ce048153231ca0f40edf153b9fea6f6</sha512>
+        <tags>
+            <tag>stable</tag>
+        </tags>
+        <maintainer>NARBOWEB SRL</maintainer>
+        <maintainerurl>https://smstunnel.io</maintainerurl>
+        <targetplatform name="joomla" version="((4\.4)|(5\.)|(6\.))"/>
+        <php_minimum>8.1</php_minimum>
+    </update>
+</updates>

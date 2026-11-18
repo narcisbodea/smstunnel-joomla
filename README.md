@@ -10,13 +10,16 @@ from your phone's own plan.
 **[Get the SMSTunnel app on Google Play](https://play.google.com/store/apps/details?id=io.smstunnel.app)**
 
 - **Type:** user plugin · element `smstunnel` (`plg_user_smstunnel`)
-- **Requires:** Joomla 4.4 or newer, or Joomla 5; PHP 8.1+
+- **Requires:** Joomla 4.4, 5 or 6; PHP 8.1+ (tested on Joomla 5.4.10 with PHP 8.3 and Joomla 6.2.0 with PHP 8.4)
 - **Needs:** an SMSTunnel account, the free SMSTunnel app on an Android phone, and an API key
 
 ## Install
 
-In Joomla: **System → Install → Extensions**, upload `plg_user_smstunnel.zip`, then enable
-**User - SMSTunnel** under **System → Plugins** and open its options.
+Download `plg_user_smstunnel.zip` from the [latest release](https://github.com/narcisbodea/smstunnel-joomla/releases/latest).
+In Joomla: **System → Install → Extensions**, upload the zip, then enable **User - SMSTunnel** under
+**System → Plugins** and open its options.
+
+New versions show up in Joomla under **System → Update → Extensions**: the plugin has an update server.
 
 ## Set it up
 
@@ -44,14 +47,23 @@ In Joomla: **System → Install → Extensions**, upload `plg_user_smstunnel.zip
   paired phone. SMSTunnel's [privacy policy](https://smstunnel.io/privacy) applies.
 - Requests go through Joomla's own HTTP client over HTTPS. The API key travels only to smstunnel.io, in
   the `X-API-Key` header, and is never written to the log.
-- A text that does not go out is logged in the `plg_user_smstunnel` category with the number **masked**
-  and **without the message text**; registration is never interrupted.
+- A text that does not go out is written to `administrator/logs/plg_user_smstunnel.php`, with the number
+  **masked** (its last three digits) and **without the message text**, next to SMSTunnel's reason (for
+  example a rejected key or too many requests). Registration is never interrupted.
 
 ## Responsible use
 
 Send only texts people expect — notifications to yourself or your team. Unsolicited texts from a personal
 SIM break most carriers' terms. Follow your carrier's terms and local rules (in the EU, GDPR and the
 ePrivacy rules).
+
+## Changelog
+
+- **1.0.1**: works on Joomla 6 (it reads SMSTunnel's answer through PSR-7; Joomla 6 removed the old
+  `code` and `body` properties, so 1.0.0 counted every text there as failed). A text that does not go
+  out is now written to `administrator/logs/plg_user_smstunnel.php` (1.0.0 wrote it to no log file).
+  An update server, so Joomla offers new versions.
+- **1.0.0**: first release.
 
 ## License
 

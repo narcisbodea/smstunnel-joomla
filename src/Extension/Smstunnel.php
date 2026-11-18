@@ -78,11 +78,7 @@ final class Smstunnel extends CMSPlugin implements SubscriberInterface
                 // text or the full number, and no new lines that could forge extra log entries.
                 $reason = trim(mb_substr((string) preg_replace('/[\r\n\t]+/', ' ', $error), 0, 200));
 
-                Log::add(
-                    'SMSTunnel: a new-registration text to ' . $this->mask($to) . ' did not go out: ' . $reason,
-                    Log::WARNING,
-                    'plg_user_smstunnel'
-                );
+                $this->warn('SMSTunnel: a new-registration text to ' . $this->mask($to) . ' did not go out: ' . $reason);
             }
         }
     }
@@ -139,7 +135,27 @@ final class Smstunnel extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Shows the last four digits of a number only, for the log.
+     * Writes a warning to administrator/logs/plg_user_smstunnel.php. Joomla writes a log category only
+     * to the loggers registered for it, so the plugin registers its own file the first time.
+     *
+     * @param   string  $message
+     *
+     * @return  void
+     */
+    private function warn(string $message): void
+    {
+        static $loggerAdded = false;
+
+        if (!$loggerAdded) {
+            Log::addLogger(['text_file' => 'plg_user_smstunnel.php'], Log::ALL, ['plg_user_smstunnel']);
+            $loggerAdded = true;
+        }
+
+        Log::add($message, Log::WARNING, 'plg_user_smstunnel');
+    }
+
+    /**
+     * Shows the last three digits of a number only, for the log.
      *
      * @param   string  $number
      *

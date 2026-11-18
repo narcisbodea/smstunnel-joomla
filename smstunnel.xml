@@ -7,7 +7,7 @@
     <creationDate>2026-11</creationDate>
     <copyright>(C) 2026 NARBOWEB SRL</copyright>
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <description>PLG_USER_SMSTUNNEL_XML_DESCRIPTION</description>
     <namespace path="src">Narboweb\Plugin\User\Smstunnel</namespace>
     <files>
@@ -75,4 +75,7 @@
             </fieldset>
         </fields>
     </config>
+    <updateservers>
+        <server type="extension" priority="1" name="SMSTunnel for Joomla">https://raw.githubusercontent.com/narcisbodea/smstunnel-joomla/main/updates.xml</server>
+    </updateservers>
 </extension>
