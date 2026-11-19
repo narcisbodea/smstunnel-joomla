@@ -4,8 +4,8 @@ Get a text when a new user registers on your Joomla site — sent from **your ow
 **your own number**, through [SMSTunnel](https://smstunnel.io).
 
 When someone signs up, your site hands the text to your SMSTunnel account and your paired phone sends it
-from its own SIM, so you see a number you know. There is no per-message carrier fee: the text goes out
-from your phone's own plan.
+from its own SIM, so you see a number you know. SMSTunnel doesn't charge per text: it goes out on your
+phone's own plan, at your carrier's usual rates.
 
 **[Get the SMSTunnel app on Google Play](https://play.google.com/store/apps/details?id=io.smstunnel.app)**
 
